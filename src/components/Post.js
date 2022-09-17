@@ -8,8 +8,11 @@ export default function Post(props) {
   const [posts, setPosts] = useState([]);
   const [showPostComponent, setShowPostComponent] = useState(false);
 
-  const allPost = process.env.HEROUKU_SERVER;
-  const getAllPost = async () => {
+  const allPost = 'https://whiteboard-401.herokuapp.com/';
+ 
+
+  useEffect(() => {
+     const getAllPost = async () => {
     axios
       .get(`${allPost}getPostComment`)
       .then((response) => {
@@ -20,8 +23,6 @@ export default function Post(props) {
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
-
-  useEffect(() => {
     getAllPost();
   }, []);
 
