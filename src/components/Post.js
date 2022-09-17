@@ -8,7 +8,7 @@ export default function Post(props) {
   const [posts, setPosts] = useState([]);
   const [showPostComponent, setShowPostComponent] = useState(false);
 
-  const allPost = "http://localhost:3000/";
+  const allPost = process.env.HEROUKU_SERVER;
   const getAllPost = async () => {
     axios
       .get(`${allPost}getPostComment`)
