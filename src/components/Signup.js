@@ -1,8 +1,8 @@
-
+import React from "react"
 import axios from "axios";
-import React, { useState } from "react"
 
-export default function (props) {
+
+export default function () {
 const handleSignup = async (e) => {
     e.preventDefault();
     const data = {

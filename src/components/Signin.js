@@ -4,7 +4,7 @@ import Post from './Post'
 import axios from "axios";
 import base64 from 'base-64'
 import { When} from 'react-if';
-export default function (props) {
+export default function () {
  const [loggedin, setLoggedin] = useState(false);
 const handleLogin = async (e) => {
     e.preventDefault();
