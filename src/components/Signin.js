@@ -1,9 +1,10 @@
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Post from './Post'
 import axios from "axios";
 import base64 from 'base-64'
 import { When} from 'react-if';
+import cookies from 'react-cookies'
 export default function () {
  const [loggedin, setLoggedin] = useState(false);
 const handleLogin = async (e) => {
@@ -22,11 +23,15 @@ const handleLogin = async (e) => {
     }}).then(res => {
 
         console.log(res.data)
+        cookies.save('token', res.data.token);
+        cookies.save('userID', res.data.id)
+        cookies.save('userName', res.data.userName)
         setLoggedin(true)
     })
        .catch(err => console.log(err))
 }
   
+
   return (
     <>
     <When condition={!loggedin}>
