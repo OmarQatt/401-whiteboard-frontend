@@ -48,7 +48,7 @@ export default function Post(props) {
       <AddPost getAllPost={getAllPost} />
 
       {showPostComponent &&
-        posts?.map((posts, idx) => {
+        posts.map((posts, idx) => {
           return (
             <div key={idx}>
               <Card style={{ width: '18rem' }}>
@@ -65,7 +65,7 @@ export default function Post(props) {
                   {console.log(posts)}
                   {showPostComponent &&
                  
-                    posts.userComments?.map((comment, idx) => {
+                    posts.userComments.map((comment, idx) => {
                       return (
 
                         <div key={idx}>
