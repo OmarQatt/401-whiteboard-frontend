@@ -23,7 +23,7 @@ const handleLogin = async (e) => {
 
     const encodedCredintial = base64.encode(`${data.username}:${data.password}`)
     // console.log(`Basic ${encodedCredintial}`)
-    await axios.post('http://localhost:3000/login', {}, {
+    await axios.post(`${process.env.HEROUKU_SERVER}/login`, {}, {
         headers: {
             Authorization: `Basic ${encodedCredintial}`
     }}).then(res => {

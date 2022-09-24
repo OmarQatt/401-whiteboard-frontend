@@ -12,7 +12,7 @@ function AddPostForm(props) {
       userName:cookies.load('userName'),
       userID: cookies.load('userID')
     };
-    await axios.post("http://localhost:3000/post", Post);
+    await axios.post(`${process.env.HEROUKU_SERVER}/post`, Post);
     props.getAllPost();
   };
 

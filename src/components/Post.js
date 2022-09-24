@@ -11,7 +11,7 @@ export default function Post(props) {
   const [posts, setPosts] = useState([]);
   const [showPostComponent, setShowPostComponent] = useState(false);
 
-  const allPost = 'http://localhost:3000/';
+  const allPost = `${process.env.HEROUKU_SERVER}/`;
   const getAllPost = async () => {
     axios
       .get(`${allPost}getPostComment`)
@@ -25,15 +25,15 @@ export default function Post(props) {
   };
 
   const deletePost = async (id) => {
-    await axios.delete(`http://localhost:3000/post/${id}`);
+    await axios.delete(`${process.env.HEROUKU_SERVER}/post/${id}`);
     getAllPost();
   };
   const deleteComment = async (id) => {
-    await axios.delete(`http://localhost:3000/comment/${id}`);
+    await axios.delete(`${process.env.HEROUKU_SERVER}/comment/${id}`);
     getAllPost();
   };
   const editPost = async (id, obj) => {
-    await axios.put(`http://localhost:3000/post/${id}`);
+    await axios.put(`${process.env.HEROUKU_SERVER}/post/${id}`);
     getAllPost();
   }
 
