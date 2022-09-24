@@ -15,7 +15,7 @@ const handleSignup = async (e) => {
         email: e.target.email.value,
         password: e.target.password.value
     }
-    await axios.post(`${process.env.HEROUKU_SERVER}/signup`, data).then(res => {
+    await axios.post(`https://whiteboard-401.herokuapp.com/signup`, data).then(res => {
         console.log(res)
     }).catch(e => console.log(e))
 }
