@@ -4,16 +4,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import cookies from 'react-cookies'
 
-function AddPostForm(props) {
+function AddCommentForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const Post = {
-      post: e.target.post.value,
+    const Comment = {
       userName:cookies.load('userName'),
+      comment: e.target.commentWriter.value,
+      postID: props.PostId,
       userID: cookies.load('userID')
     };
-    await axios.post("http://localhost:3000/post", Post);
-    props.getAllPost();
+    await axios.post("http://localhost:3000/comment", Comment);
+    props.gitpost();
   };
 
   return (
@@ -21,14 +22,14 @@ function AddPostForm(props) {
     <br></br>
     <div>
       <Form onSubmit={handleSubmit}>
-        <Form.Group id="post">
-          <Form.Label>post :</Form.Label>
-          <Form.Control type="text" placeholder="Write post" id="post" as="textarea"
+        <Form.Group id="commentWriter">
+          <Form.Label>commentWriter :</Form.Label>
+          <Form.Control type="text" placeholder="Write commentWriter" id="commentWriter" as="textarea"
             rows={3}/>
-        </Form.Group> 
-        
+        </Form.Group>
+
         <Button variant="outline-success" type="submit">
-        Add New Post
+        Add New Comment
         </Button>
       </Form>
     </div>
@@ -36,4 +37,4 @@ function AddPostForm(props) {
   );
 }
 
-export default AddPostForm;
+export default AddCommentForm;

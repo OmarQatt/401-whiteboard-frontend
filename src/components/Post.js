@@ -1,18 +1,18 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import AddComment from './Add-Comment-Form'
+import AddPost from './Add-post-form'
+import EditPost from './Edit-post-modal'
 export default function Post(props) {
   const [posts, setPosts] = useState([]);
   const [showPostComponent, setShowPostComponent] = useState(false);
 
-  const allPost = 'https://whiteboard-401.herokuapp.com/';
- 
-
-  useEffect(() => {
-     const getAllPost = async () => {
+  const allPost = 'http://localhost:3000/';
+  const getAllPost = async () => {
     axios
       .get(`${allPost}getPostComment`)
       .then((response) => {
@@ -23,49 +23,71 @@ export default function Post(props) {
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
+
+  const deletePost = async (id) => {
+    await axios.delete(`http://localhost:3000/post/${id}`);
+    getAllPost();
+  };
+  const deleteComment = async (id) => {
+    await axios.delete(`http://localhost:3000/comment/${id}`);
+    getAllPost();
+  };
+  const editPost = async (id, obj) => {
+    await axios.put(`http://localhost:3000/post/${id}`);
+    getAllPost();
+  }
+
+
+  useEffect(() => {
+
     getAllPost();
   }, []);
 
   return (
     <div>
-      <Form>
-        <Form.Group>
-          <Form.Label>Post</Form.Label>
-          <Form.Control type="text" name="postName" />
-        </Form.Group>
+      <AddPost getAllPost={getAllPost} />
 
-        <Form.Group>
-          <Form.Label>Comment</Form.Label>
-          <Form.Control type="text" name="commentName" />
-        </Form.Group>
-
-        <Button variant="outline-dark" type="submit" value="Add Post">
-          Submit
-        </Button>
-
-        <Form.Group>
-          <Form.Label>Post </Form.Label>
-          {showPostComponent &&
-            posts.map((posts, idx) => {
-              return (
-                <div key={idx}>
-                  <p>{posts.post}</p>
-                  <Form.Group>
-                    <Form.Label>Comment </Form.Label>
-                  </Form.Group>
+      {showPostComponent &&
+        posts?.map((posts, idx) => {
+          return (
+            <div key={idx}>
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title>{posts.userName} :Post Title:</Card.Title>
+                  <EditPost editPost={() => editPost(posts.id)} postsID={posts.id} getAllPost={getAllPost}/>
+                  <Button variant="primary" onClick={() => deletePost(posts.id)}>Delete Post</Button>
+                  <Card.Text>
+                    {posts.post}
+                  </Card.Text>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                  <AddComment PostId={posts.userID} gitpost={getAllPost} />
+                  {console.log(posts)}
                   {showPostComponent &&
-                    posts.Comments.map((comment, idx) => {
+                 
+                    posts.userComments?.map((comment, idx) => {
                       return (
+
                         <div key={idx}>
-                          <p>{comment.commentWriter}</p>
+                          <ListGroup.Item>{comment.userName} : {comment.comment}</ListGroup.Item>
+                          <Card.Body>
+
+                            <Button >Edit Comment</Button>
+                            <Button onClick={() => deleteComment(comment.id)}>Delete Comment</Button>
+                          </Card.Body>
                         </div>
                       );
                     })}
-                </div>
-              );
-            })}
-        </Form.Group>
-      </Form>
+
+
+                </ListGroup>
+
+              </Card>
+
+            </div>
+          );
+        })}
+
     </div>
   );
 }

@@ -1,6 +1,11 @@
 import React from "react"
 import axios from "axios";
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 export default function () {
 const handleSignup = async (e) => {
@@ -10,7 +15,7 @@ const handleSignup = async (e) => {
         email: e.target.email.value,
         password: e.target.password.value
     }
-    await axios.post('https://whiteboard-401.herokuapp.com/signup', data).then(res => {
+    await axios.post('http://localhost:3000/signup', data).then(res => {
         console.log(res)
     }).catch(e => console.log(e))
 }
@@ -23,7 +28,7 @@ const handleSignup = async (e) => {
             <div className="text-center">
               Already registered?{" "}
               <span className="link-primary" >
-                Sign In
+              <Link to="/signin">Sign In</Link>
               </span>
             </div>
             <div className="form-group mt-3">

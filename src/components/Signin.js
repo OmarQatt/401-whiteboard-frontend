@@ -5,7 +5,13 @@ import axios from "axios";
 import base64 from 'base-64'
 import { When} from 'react-if';
 import cookies from 'react-cookies'
-export default function () {
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+export default function (props) {
  const [loggedin, setLoggedin] = useState(false);
 const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,7 +23,7 @@ const handleLogin = async (e) => {
 
     const encodedCredintial = base64.encode(`${data.username}:${data.password}`)
     // console.log(`Basic ${encodedCredintial}`)
-    await axios.post('https://whiteboard-401.herokuapp.com/login', {}, {
+    await axios.post('http://localhost:3000/login', {}, {
         headers: {
             Authorization: `Basic ${encodedCredintial}`
     }}).then(res => {
@@ -30,8 +36,21 @@ const handleLogin = async (e) => {
     })
        .catch(err => console.log(err))
 }
-  
 
+useEffect(() => {
+  const token = cookies.load('token')
+  if(token) {
+    setLoggedin(true)
+  }
+  console.log(token)
+}, [])
+  
+const logout = () => {
+  cookies.remove('token')
+  cookies.remove('userID')
+  cookies.remove('userName')
+  setLoggedin(false)
+}
   return (
     <>
     <When condition={!loggedin}>
@@ -42,7 +61,7 @@ const handleLogin = async (e) => {
           <div className="text-center">
             Not registered yet?{" "}
             <span className="link-primary" >
-              Sign Up
+            <Link to="/signup">Sign Up</Link>
             </span>
           </div>
           <div className="form-group mt-3">
@@ -76,7 +95,9 @@ const handleLogin = async (e) => {
     </div>
     </When>
     <When condition={loggedin}>
-    <Post/>
+      <button onClick={logout}>Log Out</button>
+      <p>{cookies.load('userName')}</p>
+    <Post nameOfCreator={cookies.load('userName')}/>
     </When>
     </>
   )
