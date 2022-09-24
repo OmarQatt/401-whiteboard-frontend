@@ -13,7 +13,7 @@ function AddCommentForm(props) {
       postID: props.PostId,
       userID: cookies.load('userID')
     };
-    await axios.post(`${process.env.HEROUKU_SERVER}/comment`, Comment);
+    await axios.post(`https://whiteboard-401.herokuapp.com/comment`, Comment);
     props.gitpost();
   };
 

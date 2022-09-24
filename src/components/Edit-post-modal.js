@@ -15,7 +15,7 @@ function EditModal(props) {
       post: e.target.post.value,
       
     };
-    await axios.put(`${process.env.HEROUKU_SERVER}/post/${props.postsID}`, Post);
+    await axios.put(`https://whiteboard-401.herokuapp.com/post/${props.postsID}`, Post);
     props.getAllPost();
   };
   return (
