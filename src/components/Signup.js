@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-
+import cookies from 'react-cookies'
 export default function () {
 const handleSignup = async (e) => {
     e.preventDefault();
@@ -15,7 +15,10 @@ const handleSignup = async (e) => {
         email: e.target.email.value,
         password: e.target.password.value
     }
-    await axios.post(`http://localhost:4000/signup`, data).then(res => {
+    await axios.post(`https://whiteboard-401.herokuapp.com/signup`, data,{
+      headers: {
+        Authorization: `Bearer ${cookies.load("token")}`,
+  }}).then(res => {
         console.log(res)
         alert("Your Rigisterd Now Please Sign In!")
     }).catch(e => console.log(e))

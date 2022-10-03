@@ -13,7 +13,7 @@ function AddCommentForm(props) {
       postID: props.PostId,
       userID: cookies.load('userID')
     };
-    await axios.post(`http://localhost:4000/comment`, Comment, {
+    await axios.post(`https://whiteboard-401.herokuapp.com/comment`, Comment, {
       headers: {
           Authorization: `Barear ${cookies.load('token')}`
   }});
