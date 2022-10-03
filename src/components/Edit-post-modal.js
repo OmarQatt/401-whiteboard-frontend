@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import cookies from 'react-cookies'
 function EditModal(props) {
   const [show, setShow] = useState(false);
 
@@ -15,7 +16,10 @@ function EditModal(props) {
       post: e.target.post.value,
       
     };
-    await axios.put(`https://whiteboard-401.herokuapp.com/post/${props.postsID}`, Post);
+    await axios.put(`https://whiteboard-401.herokuapp.com/post/${props.postsID}`, Post, {
+      headers: {
+          Authorization: `Barear ${cookies.load('token')}`
+  }});
     props.getAllPost();
   };
   return (
