@@ -6,8 +6,6 @@ import AddComment from './Add-Comment-Form'
 import AddPost from './Add-post-form'
 import EditPost from './Edit-post-modal'
 
-
-
 export default function Post(props) {
 
   return (
@@ -20,24 +18,17 @@ export default function Post(props) {
               <Card style={{ width: '18rem' }}>
                 <Card.Body>
                   <Card.Title>{posts.userName} :Post Title:</Card.Title>
-                 
-                 
-                      <EditPost editPost={() => props.editPost(posts.id)} postsID={posts.id} getAllPost={props.getAllPost} />
-                      <Button variant="primary" onClick={() => props.deletePost(posts.id)}>Delete Post</Button>
-                    
-                  
+                  <EditPost editPost={() => props.editPost(posts.id)} postsID={posts.id} getAllPost={props.getAllPost} />
+                  <Button variant="primary" onClick={() => props.deletePost(posts.id)}>Delete Post</Button>
                   <Card.Text>
                     {posts.post}
                   </Card.Text>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
                   <AddComment PostId={posts.id} gitpost={props.getAllPost} />
-                
                   {props.showPostComponent &&
-
                     posts.userComments.map((comment, idx) => {
                       return (
-
                         <div key={idx}>
                           <ListGroup.Item>{comment.userName} : {comment.comment}</ListGroup.Item>
                           <Card.Body>
@@ -49,13 +40,10 @@ export default function Post(props) {
                       );
                     })}
                 </ListGroup>
-
               </Card>
-
             </div>
           );
         })}
-
     </div>
   );
 }

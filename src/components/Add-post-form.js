@@ -12,7 +12,7 @@ function AddPostForm(props) {
       userName:cookies.load('userName'),
       userID: cookies.load('userID')
     };
-    await axios.post(`https://whiteboard-401.herokuapp.com/post`, Post, {
+    await axios.post(`${process.env.REACT_APP_HOST}/post`, Post, {
       headers: {
           Authorization: `Barear ${cookies.load('token')}`
   }});
