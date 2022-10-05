@@ -8,7 +8,7 @@ import EditPost from './Edit-post-modal'
 import { authContext } from "./Context/AuthContext";
 import cookies from 'react-cookies'
 export default function Post() {
-  const { getAllPost, showPostComponent,posts,deletePost,deleteComment,editPost,loggedin, capabilities,setRoles,checkToken} = useContext(authContext)
+  const { getAllPost, showPostComponent,posts,deletePost,deleteComment,editPost,loggedin, roles, setRoles,checkToken} = useContext(authContext)
   useEffect(() => {
     
     getAllPost()
@@ -29,7 +29,7 @@ export default function Post() {
                   <Card.Title>{posts.userName} :Post Title:</Card.Title>
                   <EditPost editPost={() => editPost(posts.id)} postsID={posts.id} getAllPost={getAllPost} />
                   {
-                    capabilities.includes('delete')&&
+                    roles === 'admin'&&
                   <Button variant="primary" onClick={() => deletePost(posts.id)}>Delete Post</Button>
                   }
                   <Card.Text>

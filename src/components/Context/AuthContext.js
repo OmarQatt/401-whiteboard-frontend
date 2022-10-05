@@ -129,16 +129,15 @@ const AuthContextProvider = (props) => {
         setRoles(role)
         setCapabilities(cookies.load('capabilities'))
       fetchUser()
-      getAllPost();
-     
-      
-      
+      getAllPost();      
     }
     }
 
+    
+
     const value = { loggedin, logout, handleSignup, handleLogin, setLoggedin,
          posts, getAllPost, showPostComponent, roles, setRoles, deleteComment,
-          editPost, deletePost, user, fetchUser, capabilities, checkToken }
+          editPost, deletePost, user, fetchUser, capabilities, checkToken}
     return (
         <authContext.Provider value={value}>
             {props.children}
