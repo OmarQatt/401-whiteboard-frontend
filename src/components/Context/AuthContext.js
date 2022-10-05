@@ -9,7 +9,7 @@ export const authContext = createContext();
 const AuthContextProvider = (props) => {
 
     const [loggedin, setLoggedin] = useState(false);
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState('');
     const [showPostComponent, setShowPostComponent] = useState(false);
     const [roles, setRoles] = useState('');
 
@@ -76,7 +76,7 @@ const AuthContextProvider = (props) => {
                 })
                 .then((response) => {
                     const allPosts = response.data;
-
+                    console.log(response.data)
                     setPosts(allPosts);
                     setShowPostComponent(true);
                 }
