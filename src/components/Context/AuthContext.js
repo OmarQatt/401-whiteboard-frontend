@@ -12,7 +12,8 @@ const AuthContextProvider = (props) => {
     const [posts, setPosts] = useState('');
     const [showPostComponent, setShowPostComponent] = useState(false);
     const [roles, setRoles] = useState('');
-
+    const [user, setUser] = useState({});
+    const [capabilities, setCapabilities] = useState();
     const handleLogin = async (e) => {
         e.preventDefault();
         const data = {
@@ -28,12 +29,14 @@ const AuthContextProvider = (props) => {
                 Authorization: `Basic ${encodedCredintial}`
             }
         }).then(res => {
-
+            setUser(res.data)
             console.log(res.data)
             cookies.save('token', res.data.token);
             cookies.save('userID', res.data.id)
             cookies.save('userName', res.data.userName)
             cookies.save('role', res.data.role)
+            cookies.save('capabilities', JSON.stringify(res.data.capabilities))
+           
             setLoggedin(true)
         })
             .catch(err => console.log(err))
@@ -54,6 +57,14 @@ const AuthContextProvider = (props) => {
             console.log(res)
             alert("Your Rigisterd Now Please Sign In!")
         }).catch(e => console.log(e))
+    }
+
+    const fetchUser = async () => {
+        await axios.get(`${process.env.REACT_APP_HOST}/users`, {}, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            }
+        }).then(res => setUser(res.data)).catch(e => console.log(e))
     }
 
     const logout = () => {
@@ -77,7 +88,7 @@ const AuthContextProvider = (props) => {
                 .then((response) => {
                     const allPosts = response.data;
                     console.log(response.data)
-                    setPosts(allPosts);
+                    setPosts(allPosts);                  
                     setShowPostComponent(true);
                 }
                 ).catch((error) => console.error(`Error: ${error}`));
@@ -110,8 +121,24 @@ const AuthContextProvider = (props) => {
         });
         getAllPost();
     }
+    const checkToken = () => {
+        const token = cookies.load('token')
+        const role = cookies.load('role')
+    if (token) {
+        setLoggedin(true)
+        setRoles(role)
+        setCapabilities(cookies.load('capabilities'))
+      fetchUser()
+      getAllPost();
+     
+      
+      
+    }
+    }
 
-    const value = { loggedin, logout, handleSignup, handleLogin, setLoggedin, posts, getAllPost, showPostComponent, roles, setRoles, deleteComment, editPost, deletePost }
+    const value = { loggedin, logout, handleSignup, handleLogin, setLoggedin,
+         posts, getAllPost, showPostComponent, roles, setRoles, deleteComment,
+          editPost, deletePost, user, fetchUser, capabilities, checkToken }
     return (
         <authContext.Provider value={value}>
             {props.children}

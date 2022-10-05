@@ -7,16 +7,11 @@ import { authContext } from "./Context/AuthContext";
 
 export default function () {
 
-  const { loggedin, logout, setLoggedin, posts, getAllPost, showPostComponent, handleLogin, roles, setRoles, deleteComment, editPost, deletePost } = useContext(authContext)
+  const { loggedin, logout, posts, getAllPost, showPostComponent,
+     handleLogin, roles, deleteComment, editPost, deletePost, checkToken} = useContext(authContext)
 
   useEffect(() => {
-    setRoles(cookies.load('role'))
-    const token = cookies.load('token')
-    if (token) {
-      getAllPost();
-      setLoggedin(true)
-    }
-    console.log(token + ' token')
+    checkToken()
   }, [])
 
 

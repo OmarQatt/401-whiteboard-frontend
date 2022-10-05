@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React,{useContext, useEffect} from "react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
@@ -6,8 +6,17 @@ import AddComment from './Add-Comment-Form'
 import AddPost from './Add-post-form'
 import EditPost from './Edit-post-modal'
 import { authContext } from "./Context/AuthContext";
+import cookies from 'react-cookies'
 export default function Post() {
-  const { getAllPost, showPostComponent,posts,deletePost,deleteComment,editPost,loggedin} = useContext(authContext)
+  const { getAllPost, showPostComponent,posts,deletePost,deleteComment,editPost,loggedin, capabilities,setRoles,checkToken} = useContext(authContext)
+  useEffect(() => {
+    
+    getAllPost()
+    setRoles(cookies.load('role'))
+    checkToken()
+   
+   
+  }, [])
   return (
     <div>
       <AddPost getAllPost={getAllPost} />
@@ -19,7 +28,10 @@ export default function Post() {
                 <Card.Body>
                   <Card.Title>{posts.userName} :Post Title:</Card.Title>
                   <EditPost editPost={() => editPost(posts.id)} postsID={posts.id} getAllPost={getAllPost} />
+                  {
+                    capabilities.includes('delete')&&
                   <Button variant="primary" onClick={() => deletePost(posts.id)}>Delete Post</Button>
+                  }
                   <Card.Text>
                     {posts.post}
                   </Card.Text>
