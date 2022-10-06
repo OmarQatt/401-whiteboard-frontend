@@ -29,7 +29,7 @@ export default function () {
                 </span>
               </div>
               <div className="form-group mt-3">
-                <label>User Name</label>
+                <label>Email</label>
                 <input
                   name='email'
                   type="email"
