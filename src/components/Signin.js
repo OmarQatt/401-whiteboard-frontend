@@ -7,17 +7,15 @@ import { authContext } from "./Context/AuthContext";
 
 export default function () {
 
-  const { loggedin, logout, posts, getAllPost, showPostComponent,
-     handleLogin, roles, deleteComment, editPost, deletePost, checkToken} = useContext(authContext)
+  const {  logout, posts, getAllPost, showPostComponent,
+     handleLogin, roles, deleteComment, editPost, deletePost, user} = useContext(authContext)
 
-  useEffect(() => {
-    checkToken()
-  }, [])
+
 
 
   return (
     <>
-      <When condition={!loggedin}>
+      <When condition={!user.loggedin}>
         <div className="Auth-form-container">
           <form className="Auth-form" onSubmit={handleLogin}>
             <div className="Auth-form-content">
@@ -58,10 +56,10 @@ export default function () {
           </form>
         </div>
       </When>
-      <When condition={loggedin}>
+      <When condition={user.loggedin}>
         <button onClick={logout}>Log Out</button>
         <p>{cookies.load('userName')}</p>
-        <Post roles={roles} nameOfCreator={cookies.load('userName')} loggedin={loggedin} posts={posts} getAllPost={getAllPost} showPostComponent={showPostComponent} deleteComment={deleteComment} editPost={editPost} deletePost={deletePost} />
+        <Post roles={user.roles} nameOfCreator={cookies.load('userName')} loggedin={user.loggedin} posts={posts} getAllPost={getAllPost} showPostComponent={showPostComponent} deleteComment={deleteComment} editPost={editPost} deletePost={deletePost} />
       </When>
     </>
   )
