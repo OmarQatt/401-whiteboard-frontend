@@ -1,19 +1,24 @@
-import { React, useState } from 'react';
+import  React,{useReducer, useState } from 'react';
 import { createContext } from 'react'
 import axios from 'axios';
 import base64 from 'base-64'
 import cookies from 'react-cookies'
-
+import {AuthReducer } from '../Reducer/authReducer'
+import {initialState} from '../../config/initial'
+import {login, logoutHandler, fetchUser} from '../../actions/authActions'
 export const authContext = createContext();
 
 const AuthContextProvider = (props) => {
 
-    const [loggedin, setLoggedin] = useState(false);
+    // const [loggedin, setLoggedin] = useState(false);
     const [posts, setPosts] = useState('');
     const [showPostComponent, setShowPostComponent] = useState(false);
-    const [roles, setRoles] = useState('');
-    const [user, setUser] = useState({});
-    const [capabilities, setCapabilities] = useState();
+    // const [roles, setRoles] = useState('');
+    //const [user, setUser] = useState({});
+    // const [ilities, setCapabilities] = useState();
+
+    const [user, dispatch] = useReducer(AuthReducer, initialState)
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const data = {
@@ -23,23 +28,10 @@ const AuthContextProvider = (props) => {
         }
 
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`)
-        console.log(`Basic ${encodedCredintial}`)
-        await axios.post(`${process.env.REACT_APP_HOST}/login`, {}, {
-            headers: {
-                Authorization: `Basic ${encodedCredintial}`
-            }
-        }).then(res => {
-            setUser(res.data)
-            console.log(res.data)
-            cookies.save('token', res.data.token);
-            cookies.save('userID', res.data.id)
-            cookies.save('userName', res.data.userName)
-            cookies.save('role', res.data.role)
-            cookies.save('capabilities', JSON.stringify(res.data.capabilities))
-           
-            setLoggedin(true)
-        })
-            .catch(err => console.log(err))
+        
+        login(dispatch, encodedCredintial)
+       
+        console.log(user)
     }
 
     const handleSignup = async (e) => {
@@ -49,30 +41,22 @@ const AuthContextProvider = (props) => {
             email: e.target.email.value,
             password: e.target.password.value
         }
-        await axios.post(`${process.env.REACT_APP_HOST}/signup`, data, {
-            headers: {
-                Authorization: `Bearer ${cookies.load("token")}`,
-            }
-        }).then(res => {
+        await axios.post(`${process.env.REACT_APP_HOST}/signup`, data).then(res => {
             console.log(res)
             alert("Your Rigisterd Now Please Sign In!")
         }).catch(e => console.log(e))
     }
 
-    const fetchUser = async () => {
-        await axios.get(`${process.env.REACT_APP_HOST}/users`, {}, {
-            headers: {
-                Authorization: `Bearer ${cookies.load("token")}`,
-            }
-        }).then(res => setUser(res.data)).catch(e => console.log(e))
-    }
+    // const fetchUser = async () => {
+    //     await axios.get(`${process.env.REACT_APP_HOST}/users`, {}, {
+    //         headers: {
+    //             Authorization: `Bearer ${cookies.load("token")}`,
+    //         }
+    //     }).then(res => setUser(res.data)).catch(e => console.log(e))
+    // }
 
     const logout = () => {
-        cookies.remove('token')
-        cookies.remove('userID')
-        cookies.remove('userName')
-        cookies.remove('role')
-        setLoggedin(false)
+        logoutHandler(dispatch);
     }
 
     const allPost = `${process.env.REACT_APP_HOST}/`;
@@ -125,19 +109,21 @@ const AuthContextProvider = (props) => {
         const token = cookies.load('token')
         const role = cookies.load('role')
     if (token) {
-        setLoggedin(true)
-        setRoles(role)
-        setCapabilities(cookies.load('capabilities'))
-      fetchUser()
+       
+      fetchUser(dispatch)
       getAllPost();      
     }
     }
 
     
 
-    const value = { loggedin, logout, handleSignup, handleLogin, setLoggedin,
-         posts, getAllPost, showPostComponent, roles, setRoles, deleteComment,
-          editPost, deletePost, user, fetchUser, capabilities, checkToken}
+    const value = { logout,
+        //  handleSignup,
+          handleLogin, 
+         posts, getAllPost, showPostComponent, deleteComment,
+          editPost, deletePost, user,
+           fetchUser,
+           checkToken}
     return (
         <authContext.Provider value={value}>
             {props.children}
