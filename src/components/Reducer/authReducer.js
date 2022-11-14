@@ -13,7 +13,8 @@ export const AuthReducer = (state, action) => {
         user: action.payload,
         token: action.payload.token,
         loading: false,
-        isAuth: true
+        isAuth: true,
+        loggedin: true
       }
     case actionType.LOGIN_FAILED:
       return {
@@ -27,7 +28,8 @@ export const AuthReducer = (state, action) => {
         ...state,
         user: {},
         isAuth: false,
-        token: ''
+        token: '',
+        loggedin: false
       }
     default:
       throw new Error(`Unkown action type: ${action.type}`)

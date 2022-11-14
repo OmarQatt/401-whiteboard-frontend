@@ -1,21 +1,20 @@
 import React,{useContext, useEffect} from "react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
 import AddComment from './Add-Comment-Form'
 import AddPost from './Add-post-form'
 import EditPost from './Edit-post-modal'
 import { authContext } from "./Context/AuthContext";
+import { FaFacebook, FaTwitter } from 'react-icons/fa';
+import {  CardHeader, CardBody, CardFooter, HStack,Button,Avatar ,Box, Heading, Text, IconButton ,Image} from '@chakra-ui/react'
 
 export default function Post() {
   const { getAllPost, showPostComponent,posts,deletePost,deleteComment,editPost,checkToken, user} = useContext(authContext)
   useEffect(() => {
-    
+    checkToken()
     getAllPost()
 
-    checkToken()
-   
-   
+  
   }, [])
   return (
     <div>
@@ -23,6 +22,7 @@ export default function Post() {
       {posts && user.loggedin &&
         posts.map((posts, idx) => {
           return (
+            
             <div key={idx}>
               <Card style={{ width: '18rem' }}>
                 <Card.Body>
@@ -53,9 +53,16 @@ export default function Post() {
                     })}
                 </ListGroup>
               </Card>
+             
             </div>
           );
         })}
+        <Button colorScheme='facebook' leftIcon={<FaFacebook />}>
+    Facebook
+  </Button>
+  <Button colorScheme='twitter' leftIcon={<FaTwitter />}>
+    Twitter
+  </Button>
     </div>
   );
 }

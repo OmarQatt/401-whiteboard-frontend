@@ -14,7 +14,7 @@ const AuthContextProvider = (props) => {
     const [posts, setPosts] = useState('');
     const [showPostComponent, setShowPostComponent] = useState(false);
     // const [roles, setRoles] = useState('');
-    //const [user, setUser] = useState({});
+    // const [user, setUser] = useState({});
     // const [ilities, setCapabilities] = useState();
 
     const [user, dispatch] = useReducer(AuthReducer, initialState)
@@ -23,11 +23,11 @@ const AuthContextProvider = (props) => {
         e.preventDefault();
         const data = {
 
-            username: e.target.email.value,
+            email: e.target.email.value,
             password: e.target.password.value
         }
 
-        const encodedCredintial = base64.encode(`${data.username}:${data.password}`)
+        const encodedCredintial = base64.encode(`${data.email}:${data.password}`)
         
         login(dispatch, encodedCredintial)
        
@@ -66,7 +66,7 @@ const AuthContextProvider = (props) => {
             axios
                 .get(`${allPost}getPostComment`, {
                     headers: {
-                        Authorization: `Bearer ${cookies.load('token')}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 })
                 .then((response) => {
@@ -118,7 +118,7 @@ const AuthContextProvider = (props) => {
     
 
     const value = { logout,
-        //  handleSignup,
+         handleSignup,
           handleLogin, 
          posts, getAllPost, showPostComponent, deleteComment,
           editPost, deletePost, user,

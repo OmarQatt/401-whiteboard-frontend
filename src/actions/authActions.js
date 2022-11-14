@@ -14,6 +14,8 @@ export const login = (dispatch, payload) => {
           dispatch({type: actionType.LOGIN_SUCCESS, payload: res.data});
           localStorage.setItem('currentUser', JSON.stringify(res.data));
           localStorage.setItem('token', res.data.token);
+          cookies.save('userName', res.data.userName);
+          cookies.save('userID', res.data.id);
         })
         .catch(err => dispatch({type: actionType.LOGIN_FAILED, payload: err}));
       }catch(e) {
