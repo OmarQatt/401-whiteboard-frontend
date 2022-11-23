@@ -33,12 +33,12 @@ function AddPostForm(props) {
     <Stack spacing={4}>
       <Form onSubmit={handleSubmit} style={{marginRight:"400px",padding:"10px"}}>
         <InputGroup id="post">
-        <InputLeftAddon children='Post:' />
+        <InputLeftAddon children='Post:' bg="highlight"/>
           <Input type="text" placeholder="Write post" size='lg' id="post" as="textarea"
             rows={3}/>
         </InputGroup> 
        
-        <Button colorScheme='blue' size='lg'  type="submit">Add New Post</Button>
+        <Button bg="highlight" size='lg'  type="submit">Add New Post</Button>
       </Form>
       </Stack>
       <HStack >

@@ -6,9 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContextProvider from './components/Context/AuthContext'
 import { ChakraProvider } from '@chakra-ui/react'
+import { myNewTheme } from './components/styles/theme'
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
 root.render(
-  <ChakraProvider>
+  <ChakraProvider theme={ myNewTheme }>
   <React.StrictMode>
     <AuthContextProvider>
     <App />

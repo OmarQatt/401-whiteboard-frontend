@@ -1,7 +1,7 @@
 import { React, useContext } from "react"
 import { Link } from "react-router-dom";
 import  { authContext } from "./Context/AuthContext";
-export default function () {
+export default function Signup() {
   const { handleSignup } = useContext(authContext)
 
   return (
@@ -48,7 +48,7 @@ export default function () {
             </button>
           </div>
           <p className="text-center mt-2">
-            Forgot <a href="#">password?</a>
+            Forgot <Link to="#">password?</Link>
           </p>
         </div>
       </form>
