@@ -16,9 +16,12 @@ import {
 
 } from '@chakra-ui/react'
 import logo from '../photo/OmarQattam.jpeg'
-
+import Like from './feature/like';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMessage, faShare, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { increment, decrement, selectCount } from './feature/likeSlicer';
+import { useDispatch, useSelector } from 'react-redux';
+import { configureStore } from "@reduxjs/toolkit";
 export default function Post() {
   const { getAllPost, showPostComponent, posts, deletePost, deleteComment, editPost, checkToken, user } = useContext(authContext)
   useEffect(() => {
@@ -33,6 +36,8 @@ export default function Post() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const counter = useSelector(selectCount)
+    const dispatch = useDispatch();
 
   return (
     <div>
@@ -117,15 +122,17 @@ export default function Post() {
                   }}
                 >
 
-                  <Button flex='1' variant='ghost' leftIcon={<FontAwesomeIcon icon={faThumbsUp} />}>
-                    Like
+                  <Button flex='1' variant='ghost' >
+                  <Like />
                   </Button>
+               
                   <Button onClick={handleShow} flex='1' variant='ghost' leftIcon={<FontAwesomeIcon icon={faMessage} />}>
                     Comment
                   </Button>
                   <Button flex='1' variant='ghost' leftIcon={<FontAwesomeIcon icon={faShare} />}>
                     Share
                   </Button>
+                 
                 </CardFooter>
               </Card>
 
