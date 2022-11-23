@@ -1,14 +1,15 @@
-import React, { useEffect, useContext } from "react"
+import React, { useContext } from "react"
 import Post from './Post'
 import { When } from 'react-if';
 import cookies from 'react-cookies'
 import { Link } from "react-router-dom";
 import { authContext } from "./Context/AuthContext";
-
-export default function () {
+import logo from '../photo/OmarQattam.jpeg'
+import { Button,  Flex , Avatar , Box , Heading , Text } from '@chakra-ui/react'
+export default function Signin() {
 
   const {  logout, posts, getAllPost, showPostComponent,
-     handleLogin, roles, deleteComment, editPost, deletePost, user} = useContext(authContext)
+     handleLogin, deleteComment, editPost, deletePost, user} = useContext(authContext)
 
 
 
@@ -50,15 +51,23 @@ export default function () {
                 </button>
               </div>
               <p className="text-center mt-2">
-                Forgot <a href="#">password?</a>
+                Forgot <Link to="#">password?</Link>
               </p>
             </div>
           </form>
         </div>
       </When>
       <When condition={user.loggedin}>
-        <button onClick={logout}>Log Out</button>
-        <p>{cookies.load('userName')}</p>
+        
+        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                      <Avatar name='Segun Adebayo' src={logo} alt="Logo"/>
+
+                      <Box>
+                        <Heading size='sm'>{posts.userName}</Heading>
+                        <Text>{cookies.load('userName')}</Text>
+                      </Box>
+                      <Button onClick={logout}>Log Out</Button>
+                    </Flex>
         <Post roles={user.roles} nameOfCreator={cookies.load('userName')} loggedin={user.loggedin} posts={posts} getAllPost={getAllPost} showPostComponent={showPostComponent} deleteComment={deleteComment} editPost={editPost} deletePost={deletePost} />
       </When>
     </>

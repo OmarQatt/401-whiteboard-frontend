@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import cookies from 'react-cookies'
+import { Button, Stack } from '@chakra-ui/react'
 
 function AddCommentForm(props) {
   const handleSubmit = async (e) => {
@@ -26,14 +26,15 @@ function AddCommentForm(props) {
     <div>
       <Form onSubmit={handleSubmit}>
         <Form.Group id="commentWriter">
-          <Form.Label>commentWriter :</Form.Label>
-          <Form.Control type="text" placeholder="Write commentWriter" id="commentWriter" as="textarea"
+         
+          <Form.Control type="text" placeholder="Write a comment" id="commentWriter" as="textarea"
             rows={3}/>
         </Form.Group>
-
-        <Button variant="outline-success" type="submit">
+        <Stack>
+        <Button bg="highlight" type="submit">
         Add New Comment
         </Button>
+        </Stack>
       </Form>
     </div>
     </>

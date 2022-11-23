@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import cookies from 'react-cookies'
+import { Button, Stack} from '@chakra-ui/react'
 function EditModal(props) {
   const [show, setShow] = useState(false);
 
@@ -24,10 +24,11 @@ function EditModal(props) {
   };
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Stack spacing={4}>
+      <Button bg="highlight" onClick={handleShow}>
         Edit Post
       </Button>
-
+      </Stack>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
@@ -39,7 +40,7 @@ function EditModal(props) {
           <Form.Control type="text" placeholder="Write post" id="post" as="textarea"
             rows={3}/>
         </Form.Group> 
-        <Button variant="outline-success" type="submit">
+        <Button  type="submit" bg="highlight">
         Edit Post
         </Button>
       </Form>
